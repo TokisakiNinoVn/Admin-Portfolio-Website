@@ -188,4 +188,11 @@ import VerticalNavLink from '@layouts/components/VerticalNavLink.vue';
       to: '/account-settings',
     }"
   />
+  <VerticalNavLink
+    :item="{
+      title: 'Cấu hình Ứng dụng',
+      icon: 'bx-cog',
+      to: '/app-settings',
+    }"
+  />
 </template>

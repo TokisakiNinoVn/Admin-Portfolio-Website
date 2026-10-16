@@ -2,7 +2,7 @@
 
 import supabase from '@/apis/supabase';
 
-class SkillCategoriesService {
+class CurriculumVitaeService {
   async list() {
     const { data, error } = await supabase.from('curriculum_vitae').select('*');
 
@@ -30,6 +30,19 @@ class SkillCategoriesService {
   async create(payload) {
     const { data, error } = await supabase
       .from('curriculum_vitae')
+      .insert(payload)
+      // .select();
+
+    if (error) {
+      throw error;
+    }
+
+    return data;
+  }
+
+  async createBaseCv(payload) {
+    const { data, error } = await supabase
+      .from('cvs')
       .insert(payload)
       // .select();
 
@@ -79,4 +92,4 @@ class SkillCategoriesService {
     return true;
   }
 }
-export default new SkillCategoriesService();
+export default new CurriculumVitaeService();

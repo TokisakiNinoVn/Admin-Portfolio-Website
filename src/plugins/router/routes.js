@@ -24,6 +24,10 @@ export const routes = [
         path: 'curriculum-vitae',
         component: () => import('@/pages/curriculum-vitae/index.vue'),
       },
+      {
+        path: 'app-settings',
+        component: () => import('@/pages/app-settings/index.vue'),
+      },
       
       // {
       //   path: 'campaigns',

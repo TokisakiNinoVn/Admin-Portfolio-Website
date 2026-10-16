@@ -31,6 +31,21 @@
                 Thêm CV mới
               </v-btn>
             </v-col>
+            <v-col
+              cols="12"
+              sm="12"
+              md="3"
+              class="d-flex align-center justify-end btn-add-lesson"
+            >
+              <v-btn
+                color="primary"
+                variant="elevated"
+                prepend-icon="bx-plus"
+                @click="createCvBaseDialog = true"
+              >
+                Thêm CV V2
+              </v-btn>
+            </v-col>
           </v-row>
         </v-card-text>
       </v-card>
@@ -69,6 +84,12 @@
     </v-btn>
   </v-row>
 
+  <!-- Dialog tạo bài học -->
+  <CreateCvBaseDialog 
+    v-model:dialog="createCvBaseDialog" 
+    @created="fetchCurriculumVitae" 
+    :arraySlugCV="arraySlugCV"
+  />
   <!-- Dialog tạo bài học -->
   <AddCVDialog 
     v-model:dialog="dialog" 
@@ -129,10 +150,11 @@
 
 <script setup>
 import AddCVDialog from '@/pages/curriculum-vitae/AddCVDialog.vue'
+import CreateCvBaseDialog from '@/pages/curriculum-vitae/CreateCvBase.vue'
 import CurriculumVitaeDetail from '@/pages/curriculum-vitae/CVDetail.vue'
 // import CurriculumVitaeEditDialog from '@/pages/curriculum-vitae/CVEdit.vue'
-import CurriculumVitaeEditDialog from '@/pages/curriculum-vitae/EditCVDialog.vue'
 import CVCard from '@/pages/curriculum-vitae/components/CVCard.vue'
+import CurriculumVitaeEditDialog from '@/pages/curriculum-vitae/EditCVDialog.vue'
 import CurriculumVitaeService from '@/services/curriculum-vitae.service'
 import { useToast } from '@/stores/toast.store'
 import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
@@ -142,6 +164,7 @@ const searchQuery = ref('')
 const selectedType = ref(null)
 const selectedLevel = ref(null)
 const dialog = ref(false)
+const createCvBaseDialog = ref(false)
 const editDialog = ref(false)
 const detailDialog = ref(false)
 const deleteDialog = ref(false)
