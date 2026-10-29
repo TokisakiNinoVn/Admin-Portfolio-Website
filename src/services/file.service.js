@@ -1,5 +1,5 @@
-// src/services/skill.service.js
-import supabase from '@/apis/supabase';
+// src/services/file.service.js
+import { getSupabase } from '@/lib/supabase';
 
 function formatPath(path) {
   if (!path) return path;
@@ -17,7 +17,7 @@ class FileService {
 
     const fileName = `${Date.now()}-avatarcv.${extension}`;
 
-    const { data, error } = await supabase.storage
+    const { data, error } = await getSupabase().storage
       .from(bucket)
       .upload(fileName, file);
 
@@ -30,7 +30,7 @@ class FileService {
   }
 
   async publicUrl(bucket, path) {
-    const { data } = supabase.storage
+    const { data } = getSupabase().storage
       .from(bucket)
       .getPublicUrl(path);
 
@@ -39,9 +39,8 @@ class FileService {
 
   async delete(bucket, path) {
     const formattedPath = formatPath(path);
-    console.log(formattedPath);
 
-    const { data, error } = await supabase.storage
+    const { data, error } = await getSupabase().storage
       .from(bucket)
       .remove([formattedPath]);
 
@@ -51,4 +50,6 @@ class FileService {
   }
 }
 
-export default new FileService();
+const fileService = new FileService();
+
+export default fileService;

@@ -1,10 +1,10 @@
 // src/services/categories-skills.service.js
 
-import supabase from '@/apis/supabase';
+import { getSupabase } from '@/lib/supabase';
 
 class SkillCategoriesService {
   async list() {
-    const { data, error } = await supabase.from('skill_categories').select('*');
+    const { data, error } = await getSupabase().from('skill_categories').select('*');
 
     if (error) {
       throw error;
@@ -14,7 +14,7 @@ class SkillCategoriesService {
   }
 
   async create(payload) {
-    const { data, error } = await supabase
+    const { data, error } = await getSupabase()
       .from('skill_categories')
       .insert(payload)
       // .select();
@@ -27,7 +27,7 @@ class SkillCategoriesService {
   }
 
   async update(id, payload) {
-    const { data, error } = await supabase
+    const { data, error } = await getSupabase()
       .from('skill_categories')
       .update(payload)
       .eq('id', id)
@@ -41,7 +41,7 @@ class SkillCategoriesService {
   }
 
   async delete(id) {
-    const { data, error } = await supabase.from('skill_categories').delete().eq('id', id);
+    const { data, error } = await getSupabase().from('skill_categories').delete().eq('id', id);
 
     if (error) {
       throw error;
@@ -52,7 +52,7 @@ class SkillCategoriesService {
 
   // Get list skill by category id
   async listSkillByCategory(categoryId) {
-    const { data, error } = await supabase
+    const { data, error } = await getSupabase()
       .from('skills')
       .select('*')
       .eq('skill_category_id', categoryId)
@@ -66,4 +66,6 @@ class SkillCategoriesService {
   }
 }
 
-export default new SkillCategoriesService();
+const skillCategoriesService = new SkillCategoriesService();
+
+export default skillCategoriesService;

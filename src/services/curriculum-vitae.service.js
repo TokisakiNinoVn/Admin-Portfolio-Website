@@ -1,10 +1,10 @@
 // src/services/curriculum-vitae.service.js
 
-import supabase from '@/apis/supabase';
+import { getSupabase } from '@/lib/supabase';
 
 class CurriculumVitaeService {
   async list() {
-    const { data, error } = await supabase.from('curriculum_vitae').select('*');
+    const { data, error } = await getSupabase().from('curriculum_vitae').select('*');
 
     if (error) {
       throw error;
@@ -15,7 +15,7 @@ class CurriculumVitaeService {
 
   // detail by id
   async get(id) {
-    const { data, error } = await supabase
+    const { data, error } = await getSupabase()
       .from('curriculum_vitae')
       .select('*')
       .eq('id', id);
@@ -28,7 +28,7 @@ class CurriculumVitaeService {
   }
 
   async create(payload) {
-    const { data, error } = await supabase
+    const { data, error } = await getSupabase()
       .from('curriculum_vitae')
       .insert(payload)
       // .select();
@@ -41,7 +41,7 @@ class CurriculumVitaeService {
   }
 
   async createBaseCv(payload) {
-    const { data, error } = await supabase
+    const { data, error } = await getSupabase()
       .from('cvs')
       .insert(payload)
       // .select();
@@ -54,7 +54,7 @@ class CurriculumVitaeService {
   }
 
   async update(id, payload) {
-    const { data, error } = await supabase
+    const { data, error } = await getSupabase()
       .from('curriculum_vitae')
       .update(payload)
       .eq('id', id)
@@ -68,7 +68,7 @@ class CurriculumVitaeService {
   }
 
   async delete(id, bucket, path) {
-    const { error: dbError } = await supabase
+    const { error: dbError } = await getSupabase()
       .from('curriculum_vitae')
       .delete()
       .eq('id', id);
@@ -80,7 +80,7 @@ class CurriculumVitaeService {
     if (bucket && path) {
       const filePath = path.split('/').pop();
 
-      const { error: storageError } = await supabase.storage
+      const { error: storageError } = await getSupabase().storage
         .from(bucket)
         .remove([filePath]);
 
@@ -92,4 +92,6 @@ class CurriculumVitaeService {
     return true;
   }
 }
-export default new CurriculumVitaeService();
+const curriculumVitaeService = new CurriculumVitaeService();
+
+export default curriculumVitaeService;

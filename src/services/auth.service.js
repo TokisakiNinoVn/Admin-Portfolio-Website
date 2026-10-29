@@ -1,10 +1,10 @@
 // src/services/auth.service.js
 
-import supabase from '@/apis/supabase';
+import { getSupabase } from '@/lib/supabase';
 
 class AuthService {
   async signInWithPassword(email, password) {
-    const { data, error } = await supabase.auth.signInWithPassword({
+    const { data, error } = await getSupabase().auth.signInWithPassword({
       email,
       password,
     });
@@ -15,7 +15,7 @@ class AuthService {
 
     const userId = data.user.id;
 
-    const { data: userRole, error: userRoleError } = await supabase
+    const { data: userRole, error: userRoleError } = await getSupabase()
       .from('users')
       .select('role')
       .eq('id', userId)
@@ -26,7 +26,7 @@ class AuthService {
     }
 
     if (userRole.role !== 'admin') {
-      await supabase.auth.signOut();
+      await getSupabase().auth.signOut();
 
       throw new Error('Bạn không có quyền truy cập vào hệ thống này');
     }
@@ -34,14 +34,31 @@ class AuthService {
     return data;
   }
 
-  // test
-  // async test() {
-  //   const { data, error } = await supabase
-  //     .from('users')
-  //     .select('*');
-  //   console.log('users:', data);
-  //   console.log('error:', error);
-  // }
+  async getSession() {
+    const { data, error } = await getSupabase().auth.getSession();
+
+    if (error) {
+      throw error;
+    }
+
+    return data.session;
+  }
+
+  onAuthStateChange(callback) {
+    const { data } = getSupabase().auth.onAuthStateChange(callback);
+
+    return () => data.subscription.unsubscribe();
+  }
+
+  async signOut() {
+    const { error } = await getSupabase().auth.signOut();
+
+    if (error) {
+      throw error;
+    }
+  }
 }
 
-export default new AuthService();
+const authService = new AuthService();
+
+export default authService;

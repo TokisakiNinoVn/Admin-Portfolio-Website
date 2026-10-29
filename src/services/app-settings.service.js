@@ -1,10 +1,10 @@
 // src/services/app-settings.service.js
 
-import supabase from '@/apis/supabase';
+import { getSupabase } from '@/lib/supabase';
 
 class AppSettingsService {
   async list() {
-    const { data, error } = await supabase
+    const { data, error } = await getSupabase()
       .from('app_settings')
       .select('*')
       .order('id', { ascending: true });
@@ -24,7 +24,7 @@ class AppSettingsService {
       updated_at: new Date().toISOString(),
     };
 
-    const { data, error } = await supabase
+    const { data, error } = await getSupabase()
       .from('app_settings')
       .insert([dataToInsert])
       .select()
@@ -43,7 +43,7 @@ class AppSettingsService {
       updated_at: new Date().toISOString(),
     };
 
-    const { data, error } = await supabase
+    const { data, error } = await getSupabase()
       .from('app_settings')
       .update(dataToUpdate)
       .eq('id', id)
@@ -58,7 +58,7 @@ class AppSettingsService {
   }
 
   async delete(id) {
-    const { data, error } = await supabase
+    const { data, error } = await getSupabase()
       .from('app_settings')
       .delete()
       .eq('id', id);
@@ -73,7 +73,7 @@ class AppSettingsService {
   async toggleActive(id, newStatus) {
     let nextStatus = newStatus;
     if (typeof nextStatus !== 'boolean') {
-      const { data: current, error: fetchError } = await supabase
+      const { data: current, error: fetchError } = await getSupabase()
         .from('app_settings')
         .select('is_active')
         .eq('id', id)
@@ -86,7 +86,7 @@ class AppSettingsService {
       nextStatus = !current?.is_active;
     }
 
-    const { data, error } = await supabase
+    const { data, error } = await getSupabase()
       .from('app_settings')
       .update({
         is_active: nextStatus,
@@ -108,5 +108,7 @@ class AppSettingsService {
   }
 }
 
-export default new AppSettingsService();
+const appSettingsService = new AppSettingsService();
+
+export default appSettingsService;
 
