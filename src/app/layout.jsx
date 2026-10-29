@@ -1,7 +1,7 @@
 import { AntdRegistry } from '@ant-design/nextjs-registry';
 import { Be_Vietnam_Pro } from 'next/font/google';
-import Providers from './providers';
 import './globals.css';
+import Providers from './providers';
 
 const beVietnamPro = Be_Vietnam_Pro({
   subsets: ['latin', 'vietnamese'],
@@ -12,7 +12,7 @@ const beVietnamPro = Be_Vietnam_Pro({
 
 export const metadata = {
   title: 'Admin - Tokisaki Nino',
-  icons: { icon: '/Logo-IAST.ico' },
+  icons: { icon: '/web-logo.ico' },
 };
 
 export default function RootLayout({ children }) {
