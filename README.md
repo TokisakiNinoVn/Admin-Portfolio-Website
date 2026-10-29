@@ -1,35 +1,35 @@
-# vue
+# Admin Portfolio Website
 
-This template should help get you started developing with Vue 3 in Vite.
+Trang quản trị cho website portfolio của Tokisaki Nino, viết bằng **Next.js (App Router)**, **Ant Design 5**, **@ant-design/pro-components** và **lucide-react**. Dữ liệu lưu trên **Supabase**.
 
-## Recommended IDE Setup
-
-[VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=johnsoncodehk.volar) (and disable Vetur).
-
-## Type Support for `.vue` Imports in TS
-
-Since TypeScript cannot handle type information for `.vue` imports, they are shimmed to be a generic Vue component type by default. In most cases this is fine if you don't really care about component prop types outside of templates.
-
-However, if you wish to get actual prop types in `.vue` imports (for example to get props validation when using manual `h(...)` calls), you can run `Volar: Switch TS Plugin on/off` from VS Code command palette.
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
-
-## Project Setup
+## Cài đặt
 
 ```sh
 npm install
+cp .env.example .env.local   # điền NEXT_PUBLIC_SUPABASE_URL và NEXT_PUBLIC_SUPABASE_ANON_KEY
 ```
 
-### Compile and Hot-Reload for Development
+## Lệnh
 
 ```sh
-npm run dev
+npm run dev     # chạy môi trường phát triển (http://localhost:3000)
+npm run build   # build production
+npm run start   # chạy bản build ở cổng 5050
+npm run lint    # kiểm tra ESLint
 ```
 
-### Type-Check, Compile and Minify for Production
+## Cấu trúc
 
-```sh
-npm run build
+```
+src/
+  app/
+    layout.jsx, providers.jsx   # AntdRegistry, ConfigProvider (vi_VN, sáng/tối)
+    login/                      # đăng nhập Supabase (chỉ tài khoản role = admin)
+    (admin)/                    # ProLayout + kiểm tra phiên đăng nhập
+      dashboard/ categories-skill/ skills/ friends/ app-settings/
+      curriculum-vitae/         # danh sách, /create, /[id]/edit
+  components/                   # RowActions, RichTextEditor (Tiptap), AvatarUpload, Sortable (dnd-kit)
+  lib/supabase.js               # Supabase client
+  services/                     # truy vấn Supabase theo từng bảng
+  utils/
 ```
